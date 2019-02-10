@@ -29,9 +29,9 @@ class DHT:
         if opt == "put":
             res = self.put(key, value)
             if res is True:
-                return True
+                return True, value
             else:
-                return False
+                return False, value
         if opt == "get":
             res = self.get(key)
             if res is None:
