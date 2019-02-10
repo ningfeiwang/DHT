@@ -49,12 +49,12 @@ class server_nodes:
 
     def processing(self, conn, addr):
         while True:
-            data = conn.recv(self.max_data_size)
-            if not data:
+            data_re = conn.recv(self.max_data_size)
+            if not data_re:
                 break
-            data_copy = data.copy()
+            # data_copy = data_re()
             by = b''
-            by += data
+            by += data_re
             data = json.loads(by.decode("utf-8"))
             print("data", data)
 
@@ -62,6 +62,8 @@ class server_nodes:
             mes = {}
             if server_node == self.server_name:
                 self.lock.acquire()
+                # print(11111)
+
                 flag, val = self.operation(data["opt"], data["key"], data["value"])
                 self.lock.release()
                 if flag == True:
@@ -76,13 +78,15 @@ class server_nodes:
 
             else:
                 self.lock.acquire()
-                if server_node == None:
+                if self.server_map[server_node] == None:
                     self.server_map[server_node] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.server_map[server_node].setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-                    self.server_map[server_node].connect((server_host, server_port))
+                    self.server_map[server_node].connect((server_host, int(server_port)))
                     print("new connection: " + server_host + ":" + server_port)
 
-                self.server_map[server_node].sendall(data_copy)
+                # print(server_node)
+                # print(dir(self.server_map[server_node]))
+                self.server_map[server_node].sendall(data_re)
 
                 print('transfer to ' + server_node)
                 mes = self.server_map[server_node].recv(self.max_data_size)
@@ -103,6 +107,6 @@ class server_nodes:
             print(self.connections)
 
 if __name__ == '__main__':
-    server = server_nodes("node2", 2048)
+    server = server_nodes("node1", 2048)
     server.server_start()
 
