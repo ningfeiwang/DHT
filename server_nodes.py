@@ -70,7 +70,7 @@ class server_nodes:
             if server_node == self.server_name:
                 # self.lock.acquire()
                 select_lock = data["key"] % self.lock_size
-                self.lock_map[select_lock].acurire()
+                self.lock_map[select_lock].acquire()
 
                 flag, val = self.operation(data["opt"], data["key"], data["value"])
 
@@ -113,6 +113,6 @@ class server_nodes:
             print(self.connections)
 
 if __name__ == '__main__':
-    server = server_nodes(sys.argv[1], sys.argv[2], sys.argv[3])
+    server = server_nodes(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
     server.server_start()
 

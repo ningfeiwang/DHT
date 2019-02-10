@@ -4,6 +4,7 @@ import config
 import socket
 import json
 import random
+import sys
 
 class client:
     def __init__(self, name, max_data_size):
@@ -52,8 +53,8 @@ class client:
             self.server_map[key].close()
 
 if __name__ == '__main__':
-    range_keys = 10000
-    client = client("node1", 2048)
+    range_keys = int(sys.argv[3])
+    client = client(sys.argv[1], int(sys.argv[2]))
     for i in range(1000):
         print(i)
         rand = random.uniform(0, 1)
