@@ -1,13 +1,21 @@
 #!/usr/local/bin/python
 # coding:utf-8
 
+import threading
+
 class DHT:
     def __init__(self, server_name):
-
+        # self.lock_size = lock_size
         self.server_name = server_name
         self.hash_table = {}
         self.put_nums = 0
         self.get_nums = 0
+        # self.lock_map = dict()
+        # self.init_locks()
+
+    # def init_locks(self):
+    #     for i in range(self.lock_size):
+    #         self.lock_map[i] = threading.Lock()
 
 
     def put(self, key, value):
@@ -26,18 +34,27 @@ class DHT:
             return self.hash_table[key]
 
     def operation(self, opt, key, value = None):
+        # select_lock = key % self.lock_size
+        # while True:
+            # if self.lock_map[select_lock].acquire(False):
         if opt == "put":
             res = self.put(key, value)
             if res is True:
+                # self.lock_map[select_lock].release()
                 return True, value
             else:
+                # self.lock_map[select_lock].release()
                 return False, value
         if opt == "get":
             res = self.get(key)
             if res is None:
+                # self.lock_map[select_lock].release()
                 return False, res
             else:
+                # self.lock_map[select_lock].release()
                 return True, res
+
+                # break
 
     def print_table(self):
         for key in self.hash_table.keys():
