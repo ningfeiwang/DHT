@@ -12,6 +12,9 @@ class client:
         self.node_info = config.nodes
         self.initial()
         self.put_nums = 0
+        self.put_suc = 0
+        self.get_nums = 0
+        self.get_suc = 0
 
     def initial(self):
         self.server_map = dict()
@@ -44,18 +47,31 @@ class client:
         data = json.loads(by.decode("utf-8"))
         print("message receive", res)
 
-        if opt == "put" and data["success"] == "1":
+        if opt == "put":
             self.put_nums += 1
-            print("current numbers in hash table: ", str(self.put_nums))
+            if data["success"] == "1":
+                self.put_suc += 1
+
+        if opt == "get":
+            self.get_nums += 1
+            if data["success"] == "1":
+                self.get_suc += 1
+
 
     def close(self):
         for key in self.server_map.keys():
             self.server_map[key].close()
 
+    def summary(self):
+        print("the total number of successful put operations: ", int(self.put_suc))
+        print("the total number of non-successful put operations: ", int(self.put_nums - self.put_suc))
+        print("the total number of get operations that returned a value different from NULL: ", int(self.get_suc))
+        print("the total number of get operations that returned a NULL value: ", int(self.get_nums - self.get_suc))
+
 if __name__ == '__main__':
     range_keys = int(sys.argv[2])
     client = client(int(sys.argv[1]))
-    for i in range(1000):
+    for i in range(int(sys.argv[3])):
         print(i)
         rand = random.uniform(0, 1)
         key = random.randint(0, range_keys)
@@ -66,6 +82,8 @@ if __name__ == '__main__':
         else:
             opt = "get"
             client.operation(opt, key)
+    client.summary()
+    client.close()
 
 
 
