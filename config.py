@@ -9,3 +9,4 @@ nodes = {"ipod": {"ip": "128.180.122.229", "port": "32323"},
          "mine": {"ip": "128.180.110.12",  "port": "32323"}
          }
 
+nodes_list = list(nodes)

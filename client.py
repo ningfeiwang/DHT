@@ -5,11 +5,13 @@ import socket
 import json
 import random
 import sys
+import time
 
 class client:
     def __init__(self, max_data_size):
         self.max_data_size = max_data_size
         self.node_info = config.nodes
+        self.node_list = config.nodes_list
         self.initial()
         self.put_nums = 0
         self.put_suc = 0
@@ -18,7 +20,7 @@ class client:
 
     def initial(self):
         self.server_map = dict()
-        for node_name in self.node_info.keys():
+        for node_name in self.node_info:
             self.server_map[node_name] = None
 
             host_ip = self.node_info[node_name]["ip"]
@@ -36,8 +38,8 @@ class client:
         mes["key"] = key
         mes["value"] = value
         mes_encode = json.dumps(mes).encode('utf-8')
-        ran_server = random.randint(0, len(self.node_info.keys()) - 1)
-        target = self.node_info.keys()[ran_server]
+        ran_server = random.randint(0, len(self.node_list) - 1)
+        target = self.node_list[ran_server]
         self.server_map[target].sendall(mes_encode)
         print("message send to ", target)
         res = self.server_map[target].recv(self.max_data_size)
@@ -69,12 +71,16 @@ class client:
         print("the total number of get operations that returned a NULL value: ", int(self.get_nums - self.get_suc))
 
 if __name__ == '__main__':
+    start = time.time() * 1000.0
     range_keys = int(sys.argv[2])
     client = client(int(sys.argv[1]))
+    time_list = []
+
     for i in range(int(sys.argv[3])):
         print(i)
         rand = random.uniform(0, 1)
         key = random.randint(0, range_keys)
+
         if rand <= 0.6:
             opt = "put"
             value = random.uniform(0, 10000)
@@ -82,8 +88,13 @@ if __name__ == '__main__':
         else:
             opt = "get"
             client.operation(opt, key)
+
+        # time_list.append(end - start)
+    end = time.time() * 1000.0
     client.summary()
     client.close()
+
+    print(float(sys.argv[3])/(end - start))
 
 
 

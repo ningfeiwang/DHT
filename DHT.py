@@ -19,7 +19,7 @@ class DHT:
 
 
     def put(self, key, value):
-        if key not in self.hash_table.keys():
+        if key not in self.hash_table:
             self.hash_table[key] = value
             self.put_nums += 1
             return True
@@ -27,7 +27,7 @@ class DHT:
             return False
 
     def get(self, key):
-        if key not in self.hash_table.keys():
+        if key not in self.hash_table:
             return None
         else:
             self.get_nums += 1

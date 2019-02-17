@@ -30,7 +30,7 @@ class server_nodes:
             self.lock_map[i] = threading.Lock()
 
     def look_up(self, key):
-        for node_name in self.node_info.keys():
+        for node_name in self.node_info:
             host_ip = self.node_info[node_name]["ip"]
             host_port = self.node_info[node_name]["port"]
             # mod_val = self.node_info[node_name]["mod_val"]
@@ -40,8 +40,8 @@ class server_nodes:
 
     def initial(self):
         self.server_map = dict()
-        
-        for node_name in self.node_info.keys():
+
+        for node_name in self.node_info:
             self.server_map[node_name] = None
             host_ip = self.node_info[node_name]["ip"]
             host_port = self.node_info[node_name]["port"]
