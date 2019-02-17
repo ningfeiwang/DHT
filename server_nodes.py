@@ -36,7 +36,7 @@ class server_nodes:
             host_port = self.node_info[node_name]["port"]
             # mod_val = self.node_info[node_name]["mod_val"]
             # if int(key) % len(self.node_info.keys()) == int(mod_val):
-            if node_name == self.ring.get_node(key)
+            if node_name == self.ring.get_node(key):
                 return node_name, host_ip, host_port
 
     def initial(self):
