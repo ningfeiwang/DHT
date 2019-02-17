@@ -9,11 +9,10 @@ import socket
 import json
 import threading
 from hash_ring import *
-from consist_hash import *
 
 class server_nodes:
     def __init__(self, server_name, max_data_size, lock_size):
-        self.ring = consist_hash().hashRing()
+        self.ring = h_ring()
         self.lock_size = lock_size
         self.lock_map = dict()
         self.init_locks()
@@ -28,6 +27,13 @@ class server_nodes:
     def init_locks(self):
         for i in range(self.lock_size):
             self.lock_map[i] = threading.Lock()
+
+    def h_ring(self):
+        server_name_list = []
+        for key in self.node_info.keys():
+            server_name_list.append(key)
+        servers_ring = HashRing(server_name_list)
+        return servers_ring
 
 
     def look_up(self, key):
