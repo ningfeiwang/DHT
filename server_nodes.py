@@ -9,7 +9,7 @@ import socket
 import json
 import threading
 from hash_ring import *
-import consist_hash
+from consist_hash import *
 
 class server_nodes:
     def __init__(self, server_name, max_data_size, lock_size):

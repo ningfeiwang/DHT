@@ -12,3 +12,4 @@ class consist_hash():
         servers_ring = HashRing(server_name_list)
         return servers_ring
 
+p
