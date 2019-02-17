@@ -113,8 +113,6 @@ class server_nodes:
             new_thread = threading.Thread(target = self.processing, args = (conn, addr))
             new_thread.daemon = True
             new_thread.start()
-            self.connections.append(conn)
-            print(self.connections)
 
 if __name__ == '__main__':
     server = server_nodes(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
