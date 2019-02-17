@@ -8,9 +8,12 @@ import DHT
 import socket
 import json
 import threading
+from hash_ring import *
+import consist_hash
 
 class server_nodes:
     def __init__(self, server_name, max_data_size, lock_size):
+        self.ring = consist_hash().hashRing()
         self.lock_size = lock_size
         self.lock_map = dict()
         self.init_locks()
@@ -31,12 +34,14 @@ class server_nodes:
         for node_name in self.node_info.keys():
             host_ip = self.node_info[node_name]["ip"]
             host_port = self.node_info[node_name]["port"]
-            mod_val = self.node_info[node_name]["mod_val"]
-            if int(key) % len(self.node_info.keys()) == int(mod_val):
+            # mod_val = self.node_info[node_name]["mod_val"]
+            # if int(key) % len(self.node_info.keys()) == int(mod_val):
+            if node_name == self.ring.get_node(key)
                 return node_name, host_ip, host_port
 
     def initial(self):
         self.server_map = dict()
+        
         for node_name in self.node_info.keys():
             self.server_map[node_name] = None
             host_ip = self.node_info[node_name]["ip"]
