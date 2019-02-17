@@ -41,13 +41,13 @@ class client:
         ran_server = random.randint(0, len(self.node_list) - 1)
         target = self.node_list[ran_server]
         self.server_map[target].sendall(mes_encode)
-        print("message send to ", target)
+        # print("message send to ", target)
         res = self.server_map[target].recv(self.max_data_size)
         # print("receive")
         by = b''
         by += res
         data = json.loads(by.decode("utf-8"))
-        print("message receive", res)
+        # print("message receive", res)
 
         if opt == "put":
             self.put_nums += 1
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     time_list = []
 
     for i in range(int(sys.argv[3])):
-        print(i)
+        # print(i)
         rand = random.uniform(0, 1)
         key = random.randint(0, range_keys)
 

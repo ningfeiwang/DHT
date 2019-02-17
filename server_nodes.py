@@ -49,11 +49,11 @@ class server_nodes:
                 self.server_map[node_name] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
                 self.server_map[node_name].setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-                print(host_ip)
+                # print(host_ip)
                 self.server_map[node_name].bind((host_ip, int(host_port)))
                 self.server_map[node_name].listen(5)
-                print("server starts")
-                print("ip and port: " + host_ip + ":" + host_port)
+                # print("server starts")
+                # print("ip and port: " + host_ip + ":" + host_port)
 
     def operation(self, opt, key, value):
         return self.dht_table.operation(opt, key, value)
@@ -67,7 +67,7 @@ class server_nodes:
             by = b''
             by += data_re
             data = json.loads(by.decode("utf-8"))
-            print("data", data)
+            # print("data", data)
 
             server_node, server_host, server_port = self.look_up(data["key"])
             mes = {}
@@ -83,8 +83,8 @@ class server_nodes:
                 if flag == True:
                     mes["val"] = val
                     mes["success"] = "1"
-                    print("successful put: " + str(self.dht_table.put_nums))
-                    print("successful get: " + str(self.dht_table.get_nums))
+                    # print("successful put: " + str(self.dht_table.put_nums))
+                    # print("successful get: " + str(self.dht_table.get_nums))
                 else:
                     mes["val"] = None
                     mes["success"] = "0"
@@ -95,26 +95,26 @@ class server_nodes:
                     self.server_map[server_node] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.server_map[server_node].setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
                     self.server_map[server_node].connect((server_host, int(server_port)))
-                    print("new connection: " + server_host + ":" + server_port)
+                    # print("new connection: " + server_host + ":" + server_port)
 
                 self.server_map[server_node].sendall(data_re)
 
-                print('transfer to ' + server_node)
+                # print('transfer to ' + server_node)
                 mes = self.server_map[server_node].recv(self.max_data_size)
-                print('transfer:', mes)
+                # print('transfer:', mes)
 
             conn.sendall(mes)
-            print('result: ', mes)
+            # print('result: ', mes)
 
     def server_start(self):
         while True:
             conn, addr = self.server_map[self.server_name].accept()
-            print("connect with ", conn)
+            # print("connect with ", conn)
             new_thread = threading.Thread(target = self.processing, args = (conn, addr))
             new_thread.daemon = True
             new_thread.start()
             self.connections.append(conn)
-            print(self.connections)
+            # print(self.connections)
 
 if __name__ == '__main__':
     server = server_nodes(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
