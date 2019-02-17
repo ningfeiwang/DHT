@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c2edfe7d-e71b-48f0-a3af-fe4d853e172e" name="ipod" url="http://ipod.cse.lehigh.edu">
+        <fileTransfer host="ipod.cse.lehigh.edu" port="22" rootFolder="/home/ningfei" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="9a77bc6b-2e18-4250-94ab-85fdd6702ba2" name="mine" url="http://128.180.110.12">
+        <fileTransfer host="128.180.110.12" port="22" rootFolder="/home/ningfei" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

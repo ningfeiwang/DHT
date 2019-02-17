@@ -71,7 +71,7 @@ class client:
         print("the total number of get operations that returned a NULL value: ", int(self.get_nums - self.get_suc))
 
 if __name__ == '__main__':
-    start = time.time() * 1000.0
+
     range_keys = int(sys.argv[2])
     client = client(int(sys.argv[1]))
     time_list = []
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         # print(i)
         rand = random.uniform(0, 1)
         key = random.randint(0, range_keys)
-
+        start = time.time() * 1000.0
         if rand <= 0.6:
             opt = "put"
             value = random.uniform(0, 10000)
@@ -88,13 +88,14 @@ if __name__ == '__main__':
         else:
             opt = "get"
             client.operation(opt, key)
+        end = time.time() * 1000.0
+        time_list.append(end - start)
 
-        # time_list.append(end - start)
-    end = time.time() * 1000.0
     client.summary()
     client.close()
 
-    print(float(sys.argv[3])/(end - start))
+    # print(float(sys.argv[3])/(end - start))
+    print(float(sum(time_list))/float(len(time_list)))
 
 
 
