@@ -1,5 +1,6 @@
 
 import config
+from hash_ring import *
 
 class consist_hash():
     def h_ring(self):
