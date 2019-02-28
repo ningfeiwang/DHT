@@ -16,6 +16,7 @@ class server_nodes:
         self.lock_size = lock_size
         self.lock_map = dict()
         self.init_locks()
+        self.lock_con = threading.Lock()
         self.max_data_size = max_data_size
         self.connections = []
         self.node_info = config.nodes
@@ -91,11 +92,14 @@ class server_nodes:
                 mes = json.dumps(mes).encode('utf-8')
 
             else:
+                self.lock_con.acquire()
                 if self.server_map[server_node] == None:
                     self.server_map[server_node] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.server_map[server_node].setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
                     self.server_map[server_node].connect((server_host, int(server_port)))
                     print("new connection: " + server_host + ":" + server_port)
+
+                self.lock_con.release()
 
                 self.server_map[server_node].sendall(data_re)
 
